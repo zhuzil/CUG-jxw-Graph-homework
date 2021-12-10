@@ -1,0 +1,7 @@
+﻿  tuDlg.cpp
+D:\study\cpp\tu\tuDlg.cpp(287,21): warning C4018: “<”: 有符号/无符号不匹配
+D:\study\cpp\tu\tuDlg.cpp(370,21): warning C4018: “<”: 有符号/无符号不匹配
+D:\study\cpp\tu\tuDlg.cpp(533,21): warning C4018: “<”: 有符号/无符号不匹配
+D:\study\cpp\tu\tuDlg.cpp(551,21): warning C4018: “<”: 有符号/无符号不匹配
+D:\study\cpp\tu\tuDlg.cpp(571,22): warning C4018: “<”: 有符号/无符号不匹配
+  tu.vcxproj -> D:\study\cpp\tu\Debug\tu.exe
