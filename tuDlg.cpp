@@ -249,61 +249,8 @@ void CtuDlg::draw() {
 
 }
 
-void CtuDlg::dfs(int a) {
-	dfstag[a] = 1;
-	stack<int> sta;
-	sta.push(a);
-	//tag[a] = true;
-	for (int i = 0; i < 10; i++) {
-		int bz = 0;
-		vector<dot> vv;
-		int t = 0;
-		do {
-			t = sta.top();
-			for (int j = 0; j < 10; j++) {
-				if (!dfstag[j] && mp[t][j] != maxValue) {
-					dot d;
-					d.x = t;
-					d.y = j;
-					d.c = color[0][t][j];
-					vv.push_back(d);
-					color[0][t][j] = 2;//可能值
-					color[0][j][t] = 2;//可能值
-				}
-				if (!dfstag[j] && mp[t][j] != maxValue && bz == 0) {
-					sta.push(j);
-					bz = 1;
-				}
-			}
 
-			if (bz == 0) {
-				sta.pop();
-			}
-		} while (bz == 0 && !sta.empty());
-		draw();
-		Sleep(1000);
-
-		//还原
-		for (int j = 0; j < vv.size(); j++) {
-			color[0][vv[j].x][vv[j].y] = vv[j].c;
-			color[0][vv[j].y][vv[j].x] = vv[j].c;
-		}
-		if (!sta.empty())dfstag[sta.top()] = true;
-
-		if (!sta.empty()) {
-			int x1 = sta.top();
-			sta.pop();
-			int x2 = sta.top();
-			sta.push(x1);
-			color[0][x1][x2] = 1;
-			color[0][x2][x1] = 1;
-		}
-
-	}
-
-}
-
-void CtuDlg::prim(int a) {
+void CtuDlg::prim(int a) {//数据初始化
 
 
 	//prim
@@ -332,65 +279,7 @@ void CtuDlg::prim(int a) {
 	draw();
 }
 
-void CtuDlg::dijkstra(int a) {
-	for (int i = 0; i < 10; i++) {
-		ddist[i] = maxValue;
-	}
-	ddist[a] = 0;
-	int dtag = 0;
 
-	for (int i = 0; i < 10; i++)
-	{
-		int dt = -1;
-
-		vector<dot> dvec;
-		//t随便初始化了一个不存在的结点，它最终用来存储未确定最小距离的结点，且该结点与其它结点相比目前到起点的距离最小
-		for (int j = 0; j < 10; j++) {
-			if (dst[j] == 0 && (dt == -1 || ddist[dt] > ddist[j]))
-				dt = j;
-
-			if (!dst[j] && ddist[j] != maxValue) {
-				dot d;
-				d.x = dpre[j];
-				d.y = j;
-				d.c = color[1][dpre[j]][j];
-				dvec.push_back(d);
-				color[2][dpre[j]][j] = 2;//可能值
-				color[2][j][dpre[j]] = 2;//可能值
-			}
-		}
-
-
-		draw();
-		//Sleep(1000);
-
-		dtag = 1;
-		//还原
-
-		for (int j = 0; j < dvec.size(); j++) {
-			color[2][dvec[j].x][dvec[j].y] = dvec[j].c;
-			color[2][dvec[j].y][dvec[j].x] = dvec[j].c;
-		}
-
-		dst[dt] = true;
-
-		color[2][dpre[dt]][dt] = 1;
-		color[2][dt][dpre[dt]] = 1;
-		//用结点t依次取更新其它结点到起点的距离，dist[i] = min(dist[i], dist[t] + g[t][i]);
-		for (int j = 0; j < 10; j++)
-			if (ddist[j] > ddist[dt] + mp[dt][j] && !dst[j])
-			{
-				ddist[j] = ddist[dt] + mp[dt][j];//更新距离
-				dpre[j] = dt;//从 t 到 j 的距离更短，j 的前驱变为 t.
-			}
-
-	}
-
-
-}
-
-
-//thread a;
 void CtuDlg::OnClickedButton1()
 {
 	// TODO: 在此添加控件通知处理程序代码
@@ -592,24 +481,6 @@ void CtuDlg::OnTimer(UINT_PTR nIDEvent)
 		ok++;
 
 	}else if(press==0) {
-		ofstream out("dist.csv");
-		out << "Prim dist" << endl;
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				out << pout[i][j] << ",";
-			}
-			out << endl;
-		}
-
-		out << "Dijkstra dist" << endl;
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				out << outt[i][j] << ",";
-			}
-			out << endl;
-		}
-
-		out.close();
 		draw();
 	}
 
